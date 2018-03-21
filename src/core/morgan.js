@@ -1,1 +1,3 @@
-export default ':method :url :status :res[content-length] - :response-time ms';
+import { morgan } from '../config';
+
+export default morgan;

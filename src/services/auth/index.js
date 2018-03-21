@@ -1,5 +1,8 @@
+import jwt from 'jsonwebtoken';
+import { jwtConfig } from '../../config';
+
 import { models } from '../../models';
-import user from '../../constants/user';
+import auth from '../../constants/auth';
 
 export default [
     {
@@ -15,11 +18,13 @@ export default [
         handler: (req, res) => {
             const rb = req.body;
             if (rb.username && rb.password) {
-                const usernameFind = user.findOne('users', 'username', rb.username);
+                const usernameFind = auth.findOne('users', 'username', rb.username);
                 usernameFind.then(data => {
                     if (data.found) {
-                        if (data.password === rb.password) {
-                            res.send({ success: true, message: 'Welcome'});
+                        if (data.user.password === rb.password) {
+                            const user = data.user;
+                            const token = jwt.sign( { user }, jwtConfig.secretKey );
+                            res.send({ success: true, message: 'Welcome', user: data.user, token: token });
                         } else {
                             res.send({ success: false, message: 'Wrong Password'});
                         }
@@ -45,10 +50,10 @@ export default [
         handler: (req, res) => {
             const rb = req.body;
             if (rb.username && rb.email && rb.password && rb.name && rb.surname) {
-                const usernameFind = user.findOne('users', 'username', rb.username);
+                const usernameFind = auth.findOne('users', 'username', rb.username);
                 usernameFind.then(data => {
                     if (!data.found) {
-                        const emailFind = user.findOne('users', 'email', rb.email);
+                        const emailFind = auth.findOne('users', 'email', rb.email);
                         emailFind.then(data => {
                             if (!data.found) {
                                 models.users.create({
