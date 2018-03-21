@@ -1,4 +1,5 @@
 import { models } from '../../models';
+import user from '../../constants/user';
 
 export default [
     {
@@ -12,7 +13,23 @@ export default [
         method: 'post',
         path: '/login',
         handler: (req, res) => {
-            res.send('login post');
+            const rb = req.body;
+            if (rb.username && rb.password) {
+                const usernameFind = user.findOne('users', 'username', rb.username);
+                usernameFind.then(data => {
+                    if (data.found) {
+                        if (data.password === rb.password) {
+                            res.send({ success: true, message: 'Welcome'});
+                        } else {
+                            res.send({ success: false, message: 'Wrong Password'});
+                        }
+                    } else {
+                        res.send({ success: false, message: 'No Username Found' });
+                    }
+                })
+            } else {
+                res.send({ success: false, message: 'All Area is Required!' });
+            }
         }
     },
     {
@@ -28,10 +45,12 @@ export default [
         handler: (req, res) => {
             const rb = req.body;
             if (rb.username && rb.email && rb.password && rb.name && rb.surname) {
-                models.users.findOne({ where: { username: rb.username }}).then(response => {
-                    if (!response) {
-                        models.users.findOne({ where: { email: rb.email }}).then(data => {
-                            if (!data) {
+                const usernameFind = user.findOne('users', 'username', rb.username);
+                usernameFind.then(data => {
+                    if (!data.found) {
+                        const emailFind = user.findOne('users', 'email', rb.email);
+                        emailFind.then(data => {
+                            if (!data.found) {
                                 models.users.create({
                                     username: req.body.username,
                                     email: req.body.email,
@@ -48,17 +67,17 @@ export default [
                                 }).catch((error) => {
                                     res.send( {
                                         success: false,
-                                        message: 'An Error %s', error
+                                        message: error
                                     });
                                 });
                             } else {
-                                res.send({ success: false, message: 'This Email is already exists' });
+                                res.send({ success: false, message: 'This Email is Already Have' });
                             }
                         })
                     } else {
-                        res.send({ success: false, message: 'This username is already exists' });
+                        res.send({ success: false, message: 'This Username is Already Have' });
                     }
-                })
+                });
             } else {
                 res.send({ success: false, message: 'All Area Is Required!' });
             }
