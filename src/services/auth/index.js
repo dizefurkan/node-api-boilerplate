@@ -6,13 +6,6 @@ import auth from '../../constants/auth';
 
 export default [
     {
-        method: 'get',
-        path: '/login',
-        handler: (req, res) => {
-            res.send('login get');
-        }
-    },
-    {
         method: 'post',
         path: '/login',
         handler: (req, res) => {
@@ -35,13 +28,6 @@ export default [
             } else {
                 res.send({ success: false, message: 'All Area is Required!' });
             }
-        }
-    },
-    {
-        method: 'get',
-        path: '/register',
-        handler: (req, res) => {
-            res.send('register get');
         }
     },
     {
