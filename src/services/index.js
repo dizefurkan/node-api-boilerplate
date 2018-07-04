@@ -1,7 +1,6 @@
 import fs from 'fs';
-import path from 'path';
-
 const services = [];
+
 fs
   .readdirSync(__dirname)
   .filter(file => ((file.indexOf('.') !== 0) && (file !== 'index.js')))

@@ -1,3 +1,3 @@
 export default {
-    secretKey: 'nodeApiBoilerplate'
+  secretKey: 'nodeApiBoilerplate'
 };

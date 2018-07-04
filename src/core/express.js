@@ -5,9 +5,9 @@ import config from 'config';
 import router from './router';
 
 export default [
-	morgan(config.morgan),
-	serverStatic(config.serverStatic.path),
-	bodyParser.urlencoded({ extended: false }),
-	bodyParser.json(),
-	router
+  morgan(config.morgan),
+  serverStatic(config.serverStatic.path),
+  bodyParser.urlencoded({ extended: false }),
+  bodyParser.json(),
+  router
 ];

@@ -15,17 +15,29 @@ export default [
           if (data.found) {
             if (data.user.password === rb.password) {
               const user = data.user;
-              const token = jwt.sign( { user }, jwtConfig.secretKey );
-              res.send({ success: true, message: 'Welcome', user: data.user, token: token });
+              const token = jwt.sign({ user }, jwtConfig.secretKey);
+              res.send({
+                success: true,
+                message: `Welcome ${data.user} ${token}`
+              });
             } else {
-              res.send({ success: false, message: 'Wrong Password'});
+              res.send({
+                success: false,
+                message: 'Wrong Password'
+              });
             }
           } else {
-            res.send({ success: false, message: 'No Username Found' });
+            res.send({
+              success: false,
+              message: 'No Username Found'
+            });
           }
-        })
+        });
       } else {
-        res.send({ success: false, message: 'All Area is Required!' });
+        res.send({
+          success: false,
+          message: 'All Area is Required!'
+        });
       }
     }
   },
@@ -39,8 +51,8 @@ export default [
         usernameFind.then(data => {
           if (!data.found) {
             const emailFind = auth.findOne('users', 'email', rb.email);
-            emailFind.then(data => {
-              if (!data.found) {
+            emailFind.then(emailData => {
+              if (!emailData.found) {
                 models.users.create({
                   username: req.body.username,
                   email: req.body.email,
@@ -49,27 +61,36 @@ export default [
                   surname: req.body.surname,
                   isApproved: false
                 }).then((result) => {
-                  res.send( {
+                  res.send({
                     success: true,
                     message: 'Register Successful',
                     data: result
                   });
                 }).catch((error) => {
-                  res.send( {
+                  res.send({
                     success: false,
                     message: error
                   });
                 });
               } else {
-                res.send({ success: false, message: 'This Email is Already Have' });
+                res.send({
+                  success: false,
+                  message: 'This Email is Already Have'
+                });
               }
-            })
+            });
           } else {
-            res.send({ success: false, message: 'This Username is Already Have' });
+            res.send({
+              success: false,
+              message: 'This Username is Already Have'
+            });
           }
         });
       } else {
-        res.send({ success: false, message: 'All Area Is Required!' });
+        res.send({
+          success: false,
+          message: 'All Area Is Required!'
+        });
       }
     }
   }

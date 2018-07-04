@@ -1,0 +1,28 @@
+{
+  "plugins": [
+    "node"
+  ],
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "airbnb-base/legacy"
+  ],
+  "rules": {
+    "node/no-unsupported-features": 0,
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "warn",
+          "error",
+          "log"
+        ]
+      }
+    ],
+    "node/exports-style": [
+      "error",
+      "module.exports"
+    ]
+  }
+}
