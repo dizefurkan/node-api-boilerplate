@@ -63,7 +63,7 @@ module.exports = {
 - [babel-cli](https://www.npmjs.com/package/babel-cli)
 - [babel-eslint](https://www.npmjs.com/package/babel-eslint)
 - [babel-plugin-module-resolver](https://www.npmjs.com/package/babel-plugin-module-resolver)
-- [babel-preset-es2015](https://www.npmjs.com/package/babel-preset-es2015)
+- [babel-preset-env](https://www.npmjs.com/package/babel-preset-env)
 - [babel-preset-stage-0](https://www.npmjs.com/package/babel-preset-stage-0)
 - [eslint](https://www.npmjs.com/package/eslint)
 - [eslint-config-airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base)
