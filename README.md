@@ -60,8 +60,6 @@ https://www.postgresql.org/download/
 ---
 ## Code Examples
 ### App.js
-I'm using Joi for validation.
-
 ```js
 /* src/app.js */
 import express from 'express';
@@ -116,7 +114,6 @@ fs
 export default services;
 ```
 ### Login Services and Joi
-I'm using Joi for validation.
 ```js
 //services/auth/index.js
 import validater from './validater';
@@ -159,7 +156,13 @@ npm run lint
 ```
 ---
 Server running on `http://localhost:3030/`
+```js
+/* src/config/server.js */
+export default {
+  port: 3030
+};
 
+```
 ---
 ## Authors
 [<img src="https://avatars1.githubusercontent.com/u/28892291?s=460&v=4" width="100px;"/><br /><sub>Said Furkan Dize</sub>](https://github.com/dizefurkan)<br />
