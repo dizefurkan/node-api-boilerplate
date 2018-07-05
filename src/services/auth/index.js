@@ -49,7 +49,13 @@ export default [
     method: 'post',
     path: '/register',
     handler: async (req, res) => {
-      const { username, email, password, name, surname } = req.body;
+      const {
+        username,
+        email,
+        password,
+        name,
+        surname
+      } = req.body;
       if (username && email && password && name && surname) {
         let result;
         let query = {
@@ -68,7 +74,7 @@ export default [
           return res.send({
             success: false,
             message: 'This email is already taken'
-          });  
+          });
         }
         return res.send({
           success: false,
