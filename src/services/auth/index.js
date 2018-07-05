@@ -1,7 +1,8 @@
+import Joi from 'joi';
 import jwt from 'jsonwebtoken';
 import dbo from 'library/dbHelper';
-import Joi from 'joi';
 import validater from './validater';
+import crypto from 'library/crypto';
 import { models } from 'models';
 import { jwtConfig } from 'config';
 
@@ -18,14 +19,14 @@ export default [
         };
         const result = await dbo.findOne(models.user, query);
         if (result.found) {
-          if (result.user.password === password) {
+          const isPasswordSame = await crypto.verify(password, result.user.password);
+          if (isPasswordSame) {
             const { user } = result;
             const token = jwt.sign({ user }, jwtConfig.secretKey);
             return res.send({
               found: true,
               user: {
                 email: user.email,
-                password: user.password,
                 name: user.name,
                 surname: user.surname
               },
@@ -54,9 +55,7 @@ export default [
         const {
           username,
           email,
-          password,
-          name,
-          surname
+          password
         } = req.body;
         await Joi.validate(req.body, validater.register);
         let result;
@@ -70,6 +69,7 @@ export default [
           };
           result = await dbo.findOne(models.user, query);
           if (!result.found) {
+            req.body.password = await crypto.hash(password);
             result = await models.user.create(req.body);
             return res.send(result);
           }
