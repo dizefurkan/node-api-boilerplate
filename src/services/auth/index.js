@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import auth from 'constants/auth';
+import dbo from 'library/dbHelper';
 import { models } from 'models';
 import { jwtConfig } from 'config';
 
@@ -10,7 +10,10 @@ export default [
     handler: async (req, res) => {
       const { email, password } = req.body;
       if (email && password) {
-        const result = await auth.findOne('user', 'email', email);
+        const query = {
+          where: { email }
+        };
+        const result = await dbo.findOne(models.user, query);
         if (result.found) {
           if (result.user.password === password) {
             const { user } = result;
@@ -49,9 +52,15 @@ export default [
       const { username, email, password, name, surname } = req.body;
       if (username && email && password && name && surname) {
         let result;
-        result = await auth.findOne('user', 'username', username);
+        let query = {
+          where: { username }
+        };
+        result = await dbo.findOne(models.user, query);
         if (!result.found) {
-          result = await auth.findOne('user', 'email', email);
+          query = {
+            where: { email }
+          };
+          result = await dbo.findOne(models.user, query);
           if (!result.found) {
             result = await models.user.create(req.body);
             return res.send(result);

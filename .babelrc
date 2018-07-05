@@ -12,7 +12,8 @@
           "constants": "./src/constants",
           "core": "./src/core",
           "models": "./src/models",
-          "services": "./src/services"
+          "services": "./src/services",
+          "library": "./src/library"
         }
       }
     ]

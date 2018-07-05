@@ -1,6 +1,6 @@
 import express from 'express';
 import services from 'services';
-import auth from 'constants/auth';
+import libraryToken from 'library/token';
 
 const app = express();
 
@@ -10,7 +10,7 @@ app.use((req, res, next) => {
   } else {
     const token = req.headers.token;
     if (token) {
-      const checkToken = auth.verifyToken(token);
+      const checkToken = libraryToken.verifyToken(token);
       checkToken.then(result => {
         req.decoded = result.verifyResult;
         next();
