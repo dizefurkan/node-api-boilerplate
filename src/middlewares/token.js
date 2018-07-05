@@ -1,22 +1,26 @@
 import libraryToken from 'library/token';
 
-export default (req, res, next) => {
-  if (req.path === '/register' || req.path === '/login') {
-    next();
-  }
-  const { token } = req.headers;
-  if (token) {
-    libraryToken.verifyToken(token).then(result => {
-      req.decoded = result.verifyResult;
-      next();
-    }).catch(() => {
-      return res.send({ success: false, message: 'Token Error' });
-    });
-  } else {
+export default async (req, res, next) => {
+  try {
+    if (req.path === '/register' || req.path === '/login') {
+      return next();
+    }
+    const { token } = req.headers;
+    if (!token) {
+      return res.send({
+        success: false,
+        message: 'No Token',
+        url: req.path
+      });
+    }
+    await libraryToken.verifyToken(token);
+    return next();
+  } catch (err) {
+    const isError = Object.keys(err).length;
+    const message = isError ? err : 'Token Error';
     return res.send({
       success: false,
-      message: 'No Token',
-      url: req.path
+      message
     });
   }
 };
