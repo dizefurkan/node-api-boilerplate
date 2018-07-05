@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import dbo from 'library/dbHelper';
+import Joi from 'joi';
+import validater from './validater';
 import { models } from 'models';
 import { jwtConfig } from 'config';
 
@@ -8,8 +10,9 @@ export default [
     method: 'post',
     path: '/login',
     handler: async (req, res) => {
-      const { email, password } = req.body;
-      if (email && password) {
+      try {
+        const { email, password } = req.body;
+        await Joi.validate(req.body, validater.login);
         const query = {
           where: { email }
         };
@@ -38,25 +41,24 @@ export default [
           found: false,
           message: 'Wrong Email or Password'
         });
+      } catch (err) {
+        return res.send(err);
       }
-      return res.send({
-        success: false,
-        message: 'All Area is Required!'
-      });
     }
   },
   {
     method: 'post',
     path: '/register',
     handler: async (req, res) => {
-      const {
-        username,
-        email,
-        password,
-        name,
-        surname
-      } = req.body;
-      if (username && email && password && name && surname) {
+      try {
+        const {
+          username,
+          email,
+          password,
+          name,
+          surname
+        } = req.body;
+        await Joi.validate(req.body, validater.register);
         let result;
         let query = {
           where: { username }
@@ -80,11 +82,9 @@ export default [
           success: false,
           message: 'This username is already taken'
         });
+      } catch (err) {
+        return res.send(err);
       }
-      return res.send({
-        success: false,
-        message: 'Please fill all field!'
-      });
     }
   }
 ];
