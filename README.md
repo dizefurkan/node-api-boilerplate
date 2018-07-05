@@ -60,6 +60,13 @@ module.exports = {
 - [sequelize-cli](https://www.npmjs.com/package/sequelize-cli)
 - [serve-static](https://github.com/expressjs/serve-static)
 - [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
+- [babel-cli](https://www.npmjs.com/package/babel-cli)
+- [babel-eslint](https://www.npmjs.com/package/babel-eslint)
+- [babel-plugin-module-resolver](https://www.npmjs.com/package/babel-plugin-module-resolver)
+- [babel-preset-es2015](https://www.npmjs.com/package/babel-preset-es2015)
+- [babel-preset-stage-0](https://www.npmjs.com/package/babel-preset-stage-0)
+- [eslint](https://www.npmjs.com/package/eslint)
+- [eslint-config-airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base)
 ---
 ## Project Structure
 |Folder|Description|
