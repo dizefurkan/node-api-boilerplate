@@ -1,10 +1,12 @@
 import express from 'express';
 import services from 'services';
-import token from 'middleware/token';
+import middlewares from 'middlewares';
 
 const app = express();
 
-app.use(token);
+middlewares.forEach(item => {
+  app.use(item);
+});
 
 services.forEach(item => {
   app[item.method](item.path, item.handler);
